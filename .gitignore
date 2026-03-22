@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+
+# Ambiente e segredos
+.env
+.env.local
+
+# Banco de dados
+*.db
+*.sqlite3
+
+# Node / React
+node_modules/
+dist/
+.vite/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
