@@ -174,3 +174,21 @@ def _serialize(record: WeatherRecord) -> dict:
         "created_at":     str(record.created_at),
         "updated_at":     str(record.updated_at) if record.updated_at else None,
     }
+
+
+# ── EXPORT ─────────────────────────────────────────────────────────────────────
+
+from app.services.export_service import export_records as _export
+
+@router.get("/export/{fmt}")
+def export(
+    fmt:  str,
+    city: Optional[str] = Query(None),
+    db:   Session       = Depends(get_db),
+):
+    """Exporta registros em json, csv, xml, markdown ou pdf."""
+    query = db.query(WeatherRecord)
+    if city:
+        query = query.filter(WeatherRecord.city.ilike(f"%{city}%"))
+    records = query.order_by(WeatherRecord.created_at.desc()).all()
+    return _export(records, fmt)
