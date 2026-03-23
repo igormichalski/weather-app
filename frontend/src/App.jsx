@@ -49,14 +49,12 @@ export default function App() {
               </button>
             ))}
           </nav>
-          <a href="https://www.linkedin.com/company/pm-accelerator/" target="_blank" rel="noopener noreferrer"
-            className="tag hidden md:inline-flex hover:opacity-80 transition-opacity text-xs">PM Accelerator</a>
+          <span className="tag hidden md:inline-flex text-xs">PM Accelerator</span>
         </div>
       </header>
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
 
-        {/* ── Weather tab ────────────────────────────────────────────────── */}
         {activeTab === 'weather' && (
           <div className="flex flex-col gap-8">
             <div className="text-center pt-4">
@@ -98,7 +96,6 @@ export default function App() {
           </div>
         )}
 
-        {/* ── History tab ────────────────────────────────────────────────── */}
         {activeTab === 'history' && (
           <div className="flex flex-col gap-6">
             <div>
@@ -113,29 +110,9 @@ export default function App() {
       </main>
 
       <footer className="border-t border-white/[0.06] mt-8">
-        <div className="max-w-5xl mx-auto px-4 py-8 grid sm:grid-cols-2 gap-6">
-          <div>
-            <p className="font-display font-medium text-white mb-2">About this project</p>
-            <p className="text-xs text-night-400 font-body leading-relaxed">
-              WeatherSphere is a full-stack weather app built as a technical assessment
-              for the AI Engineer Internship at PM Accelerator. Built by Igor Michalski.
-            </p>
-          </div>
-          <div>
-            <a href="https://www.linkedin.com/company/pm-accelerator/" target="_blank" rel="noopener noreferrer"
-              className="font-display font-medium text-white mb-2 hover:text-aurora-cyan transition-colors block">
-              PM Accelerator ↗
-            </a>
-            <p className="text-xs text-night-400 font-body leading-relaxed">
-              Product Manager Accelerator is a global community dedicated to empowering
-              aspiring product managers through mentorship, real-world AI product development,
-              and collaboration with diverse international teams.
-            </p>
-          </div>
-        </div>
-        <div className="border-t border-white/[0.04]">
-          <p className="text-xs text-night-600 text-center py-4 font-body">
-            Weather data by OpenWeatherMap · PM Accelerator Technical Assessment 2026
+        <div className="max-w-5xl mx-auto px-4 py-6 text-center">
+          <p className="text-xs text-night-500 font-body">
+            WeatherSphere · Built by Igor Michalski · PM Accelerator Technical Assessment 2026 · Weather data by OpenWeatherMap
           </p>
         </div>
       </footer>
