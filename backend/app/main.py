@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import get_settings
 from app.db.database import init_db
-from app.api.routes import weather
+from app.api.routes import weather, records
 
 settings = get_settings()
 
@@ -21,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(weather.router)
+app.include_router(records.router)
 
 
 @app.on_event("startup")
