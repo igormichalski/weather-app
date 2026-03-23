@@ -181,12 +181,6 @@ weather-app/
 
 ---
 
-## About PM Accelerator
-
-[Product Manager Accelerator](https://www.linkedin.com/company/pm-accelerator/) is a global community dedicated to empowering aspiring and current product managers. Through mentorship, real-world AI product development, and collaboration with diverse international teams, PMA bridges the gap between learning and landing top PM roles at companies like Amazon, Google, and Bank of America.
-
----
-
 ## License
 
 MIT
