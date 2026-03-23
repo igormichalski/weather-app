@@ -3,6 +3,7 @@ import useStore from './store/useStore'
 import SearchBar from './components/weather/SearchBar'
 import CurrentWeather from './components/weather/CurrentWeather'
 import ForecastStrip from './components/weather/ForecastStrip'
+import MapEmbed from './components/map/MapEmbed'
 
 export default function App() {
   const { activeTab, setActiveTab, weather, weatherError, clearWeather } = useStore()
@@ -78,6 +79,7 @@ export default function App() {
               <div className="flex flex-col gap-6">
                 <CurrentWeather />
                 <ForecastStrip />
+                <MapEmbed />
               </div>
             )}
           </div>
