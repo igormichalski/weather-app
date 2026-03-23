@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import useStore from './store/useStore'
 import SearchBar from './components/weather/SearchBar'
 import CurrentWeather from './components/weather/CurrentWeather'
+import ForecastStrip from './components/weather/ForecastStrip'
 
 export default function App() {
   const { activeTab, setActiveTab, weather, weatherError, clearWeather } = useStore()
@@ -23,44 +23,31 @@ export default function App() {
         }}
       />
 
-      {/* Header */}
       <header className="border-b border-white/[0.06] glass sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #22d3ee, #a78bfa)' }}>
-              ☁️
-            </div>
+              style={{ background: 'linear-gradient(135deg, #22d3ee, #a78bfa)' }}>☁️</div>
             <div>
               <span className="font-display font-bold text-lg text-white">WeatherSphere</span>
               <span className="hidden sm:inline text-night-500 text-xs ml-2">by Igor Michalski</span>
             </div>
           </div>
-
           <nav className="flex items-center gap-1 glass rounded-xl p-1">
-            {[
-              { id: 'weather', label: 'Weather', icon: '🌤' },
-              { id: 'history', label: 'History', icon: '📋' },
-            ].map(tab => (
+            {[{ id: 'weather', label: 'Weather', icon: '🌤' }, { id: 'history', label: 'History', icon: '📋' }].map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-display font-medium transition-all duration-200 ${
-                  activeTab === tab.id ? 'bg-white/10 text-white' : 'text-night-400 hover:text-white'
-                }`}>
+                  activeTab === tab.id ? 'bg-white/10 text-white' : 'text-night-400 hover:text-white'}`}>
                 <span>{tab.icon}</span>
                 <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </nav>
-
-          <a href="https://www.linkedin.com/company/pm-accelerator/"
-            target="_blank" rel="noopener noreferrer"
-            className="tag hidden md:inline-flex hover:opacity-80 transition-opacity text-xs">
-            PM Accelerator
-          </a>
+          <a href="https://www.linkedin.com/company/pm-accelerator/" target="_blank" rel="noopener noreferrer"
+            className="tag hidden md:inline-flex hover:opacity-80 transition-opacity text-xs">PM Accelerator</a>
         </div>
       </header>
 
-      {/* Main */}
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
         {activeTab === 'weather' && (
           <div className="flex flex-col gap-8">
@@ -78,7 +65,6 @@ export default function App() {
               <SearchBar />
             </div>
 
-            {/* Error */}
             {weatherError && (
               <div className="max-w-2xl mx-auto w-full rounded-xl p-4 flex items-center gap-3"
                 style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)' }}>
@@ -88,13 +74,10 @@ export default function App() {
               </div>
             )}
 
-            {/* Results */}
             {weather && (
               <div className="flex flex-col gap-6">
                 <CurrentWeather />
-                <p className="text-center text-night-500 text-sm">
-                  Forecast and more coming next…
-                </p>
+                <ForecastStrip />
               </div>
             )}
           </div>
