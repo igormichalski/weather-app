@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import useStore from './store/useStore'
 import SearchBar from './components/weather/SearchBar'
@@ -5,9 +6,12 @@ import CurrentWeather from './components/weather/CurrentWeather'
 import ForecastStrip from './components/weather/ForecastStrip'
 import MapEmbed from './components/map/MapEmbed'
 import VideoGrid from './components/weather/VideoGrid'
+import SaveRecordModal from './components/crud/SaveRecordModal'
+import RecordsTable from './components/crud/RecordsTable'
 
 export default function App() {
   const { activeTab, setActiveTab, weather, weatherError, clearWeather } = useStore()
+  const [showSave, setShowSave] = useState(false)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -51,6 +55,8 @@ export default function App() {
       </header>
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+
+        {/* ── Weather tab ────────────────────────────────────────────────── */}
         {activeTab === 'weather' && (
           <div className="flex flex-col gap-8">
             <div className="text-center pt-4">
@@ -78,6 +84,11 @@ export default function App() {
 
             {weather && (
               <div className="flex flex-col gap-6">
+                <div className="flex justify-end">
+                  <button onClick={() => setShowSave(true)} className="btn-ghost flex items-center gap-2 text-sm">
+                    🔖 Save to History
+                  </button>
+                </div>
                 <CurrentWeather />
                 <ForecastStrip />
                 <MapEmbed />
@@ -87,20 +98,49 @@ export default function App() {
           </div>
         )}
 
+        {/* ── History tab ────────────────────────────────────────────────── */}
         {activeTab === 'history' && (
-          <div className="text-center py-20">
-            <h1 className="font-display font-bold text-2xl text-white">History — coming next!</h1>
+          <div className="flex flex-col gap-6">
+            <div>
+              <h2 className="font-display font-bold text-2xl text-white">Saved Records</h2>
+              <p className="text-night-400 text-sm mt-1 font-body">
+                All saved weather lookups. Edit, delete, and export in 5 formats.
+              </p>
+            </div>
+            <RecordsTable />
           </div>
         )}
       </main>
 
       <footer className="border-t border-white/[0.06] mt-8">
-        <div className="max-w-5xl mx-auto px-4 py-6 text-center">
-          <p className="text-xs text-night-500 font-body">
-            PM Accelerator Technical Assessment · Built by Igor Michalski · Weather data by OpenWeatherMap
+        <div className="max-w-5xl mx-auto px-4 py-8 grid sm:grid-cols-2 gap-6">
+          <div>
+            <p className="font-display font-medium text-white mb-2">About this project</p>
+            <p className="text-xs text-night-400 font-body leading-relaxed">
+              WeatherSphere is a full-stack weather app built as a technical assessment
+              for the AI Engineer Internship at PM Accelerator. Built by Igor Michalski.
+            </p>
+          </div>
+          <div>
+            <a href="https://www.linkedin.com/company/pm-accelerator/" target="_blank" rel="noopener noreferrer"
+              className="font-display font-medium text-white mb-2 hover:text-aurora-cyan transition-colors block">
+              PM Accelerator ↗
+            </a>
+            <p className="text-xs text-night-400 font-body leading-relaxed">
+              Product Manager Accelerator is a global community dedicated to empowering
+              aspiring product managers through mentorship, real-world AI product development,
+              and collaboration with diverse international teams.
+            </p>
+          </div>
+        </div>
+        <div className="border-t border-white/[0.04]">
+          <p className="text-xs text-night-600 text-center py-4 font-body">
+            Weather data by OpenWeatherMap · PM Accelerator Technical Assessment 2026
           </p>
         </div>
       </footer>
+
+      {showSave && <SaveRecordModal onClose={() => setShowSave(false)} />}
     </div>
   )
 }
