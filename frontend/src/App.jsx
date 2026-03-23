@@ -110,9 +110,28 @@ export default function App() {
       </main>
 
       <footer className="border-t border-white/[0.06] mt-8">
-        <div className="max-w-5xl mx-auto px-4 py-6 text-center">
-          <p className="text-xs text-night-500 font-body">
-            WeatherSphere · Built by Igor Michalski · PM Accelerator Technical Assessment 2026 · Weather data by OpenWeatherMap
+        <div className="max-w-5xl mx-auto px-4 py-8 grid sm:grid-cols-2 gap-6">
+          <div>
+            <p className="font-display font-medium text-white mb-2">About this project</p>
+            <p className="text-xs text-night-400 font-body leading-relaxed">
+              WeatherSphere is a full-stack weather app built as a technical assessment
+              for the AI Engineer Internship at PM Accelerator. Built by Igor Michalski.
+            </p>
+          </div>
+          <div>
+            <p className="font-display font-medium text-white mb-2">PM Accelerator</p>
+            <p className="text-xs text-night-400 font-body leading-relaxed">
+              Product Manager Accelerator is a global community dedicated to empowering
+              aspiring and current product managers. Through mentorship, real-world AI
+              product development, and collaboration with diverse international teams,
+              PMA bridges the gap between learning and landing top PM roles at companies
+              like Amazon, Google, and Bank of America.
+            </p>
+          </div>
+        </div>
+        <div className="border-t border-white/[0.04]">
+          <p className="text-xs text-night-600 text-center py-4 font-body">
+            Weather data by OpenWeatherMap · PM Accelerator Technical Assessment 2026
           </p>
         </div>
       </footer>
