@@ -1,13 +1,15 @@
+import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import useStore from './store/useStore'
+import SearchBar from './components/weather/SearchBar'
+import CurrentWeather from './components/weather/CurrentWeather'
 
 export default function App() {
-  const { activeTab, setActiveTab } = useStore()
+  const { activeTab, setActiveTab, weather, weatherError, clearWeather } = useStore()
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Toaster
-        position="top-right"
+      <Toaster position="top-right"
         toastOptions={{
           style: {
             background: 'rgba(15,21,48,0.95)',
@@ -40,15 +42,10 @@ export default function App() {
               { id: 'weather', label: 'Weather', icon: '🌤' },
               { id: 'history', label: 'History', icon: '📋' },
             ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-display font-medium transition-all duration-200 ${
-                  activeTab === tab.id
-                    ? 'bg-white/10 text-white'
-                    : 'text-night-400 hover:text-white'
-                }`}
-              >
+                  activeTab === tab.id ? 'bg-white/10 text-white' : 'text-night-400 hover:text-white'
+                }`}>
                 <span>{tab.icon}</span>
                 <span className="hidden sm:inline">{tab.label}</span>
               </button>
@@ -66,22 +63,50 @@ export default function App() {
       {/* Main */}
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
         {activeTab === 'weather' && (
-          <div className="text-center py-20">
-            <h1 className="font-display font-bold text-4xl text-white">
-              Weather tab — coming next!
-            </h1>
+          <div className="flex flex-col gap-8">
+            <div className="text-center pt-4">
+              <h1 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
+                Real-time <span className="aurora-text">weather</span><br/>
+                for any place on Earth
+              </h1>
+              <p className="text-night-400 mt-3 text-base max-w-lg mx-auto font-body">
+                Search by city, ZIP code, landmark, or GPS coordinates.
+              </p>
+            </div>
+
+            <div className="max-w-2xl mx-auto w-full">
+              <SearchBar />
+            </div>
+
+            {/* Error */}
+            {weatherError && (
+              <div className="max-w-2xl mx-auto w-full rounded-xl p-4 flex items-center gap-3"
+                style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)' }}>
+                <span>⚠️</span>
+                <p className="text-sm text-red-300 flex-1">{weatherError}</p>
+                <button onClick={clearWeather} className="text-red-400 hover:text-red-300">✕</button>
+              </div>
+            )}
+
+            {/* Results */}
+            {weather && (
+              <div className="flex flex-col gap-6">
+                <CurrentWeather />
+                <p className="text-center text-night-500 text-sm">
+                  Forecast and more coming next…
+                </p>
+              </div>
+            )}
           </div>
         )}
+
         {activeTab === 'history' && (
           <div className="text-center py-20">
-            <h1 className="font-display font-bold text-4xl text-white">
-              History tab — coming next!
-            </h1>
+            <h1 className="font-display font-bold text-2xl text-white">History — coming next!</h1>
           </div>
         )}
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-white/[0.06] mt-8">
         <div className="max-w-5xl mx-auto px-4 py-6 text-center">
           <p className="text-xs text-night-500 font-body">
