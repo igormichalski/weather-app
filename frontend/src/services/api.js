@@ -17,8 +17,14 @@ api.interceptors.response.use(
 )
 
 export const weatherApi = {
-  get:       (location)              => api.get(`/weather/${encodeURIComponent(location)}`),
-  getVideos: (location, max = 4)     => api.get(`/weather/${encodeURIComponent(location)}/videos`, { params: { max_results: max } }),
+  get: (location, dateFrom = null, dateTo = null) => {
+    const params = {}
+    if (dateFrom) params.date_from = dateFrom
+    if (dateTo)   params.date_to   = dateTo
+    return api.get(`/weather/${encodeURIComponent(location)}`, { params })
+  },
+  getVideos: (location, max = 4) =>
+    api.get(`/weather/${encodeURIComponent(location)}/videos`, { params: { max_results: max } }),
 }
 
 export const recordsApi = {

@@ -8,12 +8,11 @@ const useStore = create((set) => ({
   weatherLoading: false,
   weatherError:   null,
 
-  fetchWeather: async (location) => {
+  fetchWeather: async (location, dateFrom = null, dateTo = null) => {
     set({ weatherLoading: true, weatherError: null, weather: null, videos: [] })
     try {
-      const { data } = await weatherApi.get(location)
+      const { data } = await weatherApi.get(location, dateFrom, dateTo)
       set({ weather: data, weatherLoading: false })
-      // vídeos em background — não bloqueia
       weatherApi.getVideos(location)
         .then(({ data }) => set({ videos: data }))
         .catch(() => {})
