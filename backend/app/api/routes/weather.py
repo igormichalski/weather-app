@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from app.services.weather_service import fetch_full_weather
+from app.services.youtube_service import search_location_videos
 from app.core.config import get_settings
 
 router = APIRouter(prefix="/api/weather", tags=["weather"])
@@ -32,3 +33,15 @@ async def get_weather(location: str):
         "forecast": forecast_days,
         "google_maps_key": settings.google_maps_api_key,
     }
+
+
+@router.get("/{location}/videos")
+async def get_videos(location: str, max_results: int = 4):
+    """Busca vídeos do YouTube para uma localização."""
+    location_meta, _, _ = await fetch_full_weather(location)
+    videos = await search_location_videos(
+        location_meta["city"],
+        location_meta["country"],
+        max_results=max_results,
+    )
+    return videos
