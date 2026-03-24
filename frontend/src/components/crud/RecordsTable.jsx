@@ -73,10 +73,11 @@ function EditModal({ record, onClose, onSaved }) {
 }
 
 export default function RecordsTable() {
-  const { records, recordsLoading, recordsError, fetchRecords, deleteRecord } = useStore()
+  const { records, recordsLoading, recordsError, fetchRecords, deleteRecord, loadRecord } = useStore()
   const [editTarget, setEditTarget] = useState(null)
   const [search, setSearch]         = useState('')
   const [exporting, setExporting]   = useState(null)
+  const [viewing, setViewing]       = useState(null)
 
   useEffect(() => { fetchRecords() }, [])
 
@@ -84,6 +85,18 @@ export default function RecordsTable() {
     if (!window.confirm('Delete this record?')) return
     try { await deleteRecord(id); toast.success('Deleted!') }
     catch (err) { toast.error(err.message) }
+  }
+
+  const handleView = async (record) => {
+    setViewing(record.id)
+    try {
+      await loadRecord(record)
+      toast.success(`Loaded: ${record.city}`)
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setViewing(null)
+    }
   }
 
   const handleExport = async (fmt) => {
@@ -154,6 +167,13 @@ export default function RecordsTable() {
                     <td className="px-4 py-3 text-night-400 max-w-[160px] truncate">{r.notes || '—'}</td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2">
+                        <button onClick={() => handleView(r)} disabled={viewing === r.id}
+                          className="btn-ghost text-xs py-1 px-2.5 flex items-center gap-1">
+                          {viewing === r.id
+                            ? <span className="w-3 h-3 border border-aurora-cyan border-t-transparent rounded-full animate-spin" />
+                            : '👁'}
+                          View
+                        </button>
                         <button onClick={() => setEditTarget(r)} className="btn-ghost text-xs py-1 px-2.5">Edit</button>
                         <button onClick={() => handleDelete(r.id)} className="btn-danger text-xs py-1 px-2.5">Delete</button>
                       </div>

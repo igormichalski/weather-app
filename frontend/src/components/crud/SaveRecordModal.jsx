@@ -3,14 +3,14 @@ import useStore from '../../store/useStore'
 import toast from 'react-hot-toast'
 
 export default function SaveRecordModal({ onClose }) {
-  const { weather, createRecord } = useStore()
+  const { weather, currentDateFrom, currentDateTo, createRecord } = useStore()
   const today = new Date().toISOString().slice(0, 10)
 
   const [form, setForm] = useState({
     location_query: weather?.current?.city || '',
-    date_from: today,
-    date_to:   today,
-    notes:     '',
+    date_from:      currentDateFrom || today,
+    date_to:        currentDateTo   || today,
+    notes:          '',
   })
   const [saving, setSaving] = useState(false)
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
@@ -40,7 +40,8 @@ export default function SaveRecordModal({ onClose }) {
           <div>
             <label className="text-xs text-night-400 font-display uppercase tracking-wider mb-1.5 block">Location</label>
             <input className="input-field" value={form.location_query}
-              onChange={e => set('location_query', e.target.value)} placeholder="City, ZIP, or coordinates" />
+              onChange={e => set('location_query', e.target.value)}
+              placeholder="City, ZIP, or coordinates" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -54,12 +55,25 @@ export default function SaveRecordModal({ onClose }) {
                 onChange={e => set('date_to', e.target.value)} />
             </div>
           </div>
+
+          {/* Info sobre o período */}
+          {currentDateFrom && currentDateTo ? (
+            <p className="text-xs text-aurora-cyan font-body">
+              📅 Period from your search pre-filled — you can adjust if needed.
+            </p>
+          ) : (
+            <p className="text-xs text-night-500 font-body">
+              No date range was used in this search. Dates default to today.
+            </p>
+          )}
+
           <div>
             <label className="text-xs text-night-400 font-display uppercase tracking-wider mb-1.5 block">
               Notes <span className="text-night-600">(optional)</span>
             </label>
             <textarea className="input-field resize-none" rows={3} value={form.notes}
-              onChange={e => set('notes', e.target.value)} placeholder="Trip notes, reminders…" />
+              onChange={e => set('notes', e.target.value)}
+              placeholder="Trip notes, reminders…" />
           </div>
         </div>
 
